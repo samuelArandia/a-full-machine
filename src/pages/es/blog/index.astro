@@ -1,0 +1,113 @@
+---
+// Importar los componentes, módulos y tipos necesarios
+import MainLayout from "@/layouts/MainLayout.astro";
+import CardBlog from "@components/ui/cards/CardBlog.astro";
+import CardBlogRecent from "@components/ui/cards/CardBlogRecent.astro";
+import CardInsight from "@components/ui/cards/CardInsight.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { SITE } from "@data/constants";
+
+// Obtener todas las entradas de blog en español y ordenarlas por fecha de publicación
+
+const spanishBlogEntries = await getCollection("blog", ({ id }) => {
+  return id.startsWith("es/");
+});
+
+const blogPosts: CollectionEntry<"blog">[] = spanishBlogEntries.sort(
+  (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+// Obtener todas las entradas de insights
+const insightPosts: CollectionEntry<"insights">[] =
+  await getCollection("insights");
+
+// Separar la entrada más reciente de las demás
+const mostRecentPost: CollectionEntry<"blog"> = blogPosts[0];
+const otherPosts: CollectionEntry<"blog">[] = blogPosts.slice(1);
+
+// Definir variables para el contenido de la página
+const title: string = "Tu Puente hacia la Excelencia en Construcción";
+const subTitle: string =
+  "Explora las últimas noticias, consejos y análisis de A toda makina para mejorar tus proyectos de construcción. Desde destacados de productos hasta estrategias de gestión de proyectos, nuestro blog es tu recurso indispensable para todo lo relacionado con herramientas y construcción.";
+const secondTitle: string = "Insights";
+const secondSubTitle: string =
+  "Mantente al día con las últimas tendencias y evoluciones de la industria de la construcción gracias a los análisis del equipo de expertos de A toda makina.";
+
+const pageTitle: string = `Blog | ${SITE.title}`;
+---
+
+<MainLayout
+  title={pageTitle}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://screwfast.uk/es/blog",
+    "url": "https://screwfast.uk/es/blog",
+    "name": "Blog | A toda makina",
+    "description": "Mantente informado sobre las últimas tendencias y evoluciones en el sector de la construcción con los análisis del equipo de expertos de A toda makina.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://screwfast.uk/es",
+      "name": "A toda makina",
+      "description": "A toda makina ofrece arriendos de herramientas de primera calidad y servicios expertos de construcción para satisfacer todas tus necesidades de proyecto."
+    },
+    "inLanguage": "es"
+  }}
+>
+  <section
+    class="mx-auto max-w-[85rem] space-y-8 px-4 pt-16 sm:px-6 lg:px-8 2xl:max-w-full"
+  >
+    <!-- Encabezado de la página -->
+    <div class="mx-auto max-w-3xl text-left sm:text-center">
+      <h1
+        class="block text-balance text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 md:text-5xl lg:text-6xl"
+      >
+        {title}
+      </h1>
+
+      <p
+        class="mt-4 text-pretty text-lg text-neutral-600 dark:text-neutral-400"
+      >
+        {subTitle}
+      </p>
+    </div>
+  </section>
+
+  <section
+    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+  >
+    <!-- Cuadrícula de entradas de blog -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      {otherPosts.map((blogEntry) => <CardBlog blogEntry={blogEntry} blogLocale="es"/>)}
+    </div>
+  </section>
+  <!-- Entrada de blog más reciente -->
+  <section
+    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+  >
+    <CardBlogRecent blogEntry={mostRecentPost} recentBlogLocale="es" />
+  </section>
+  <!-- Sección de insights -->
+  <section
+    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+  >
+    <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+      <h2
+        class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight"
+      >
+        {secondTitle}
+      </h2>
+      <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
+        {secondSubTitle}
+      </p>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        insightPosts.map((insightEntry) => (
+          <CardInsight insightEntry={insightEntry} />
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>

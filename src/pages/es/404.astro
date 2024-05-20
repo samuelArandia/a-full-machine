@@ -1,0 +1,45 @@
+---
+// Importar componentes de la sección
+import MainLayout from "@/layouts/MainLayout.astro";
+import Btn404 from "@components/ui/buttons/Btn404.astro";
+
+// Definir variables para el contenido de la página
+const title: string = "404";
+const subTitle: string = "¡Ups, esta no es la herramienta que estabas buscando!";
+const content: string =
+  "No dejes que este contratiempo te detenga. Volvamos a la construcción de tu obra maestra.";
+const btnTitle: string = "Regresar";
+---
+
+<MainLayout title="Página No Encontrada | A toda makina" lang="es">
+  <section class="grid h-svh place-content-center">
+    <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+      <div class="mx-auto max-w-screen-sm text-center">
+        <h1
+          class="text-dark mb-4 text-7xl font-extrabold text-yellow-500 dark:text-yellow-400 lg:text-9xl"
+        >
+          {title}
+        </h1>
+        <p
+          class="mb-4 text-balance text-3xl font-bold tracking-tight text-neutral-700 dark:text-neutral-300 md:text-4xl"
+        >
+          {subTitle}
+        </p>
+
+        <p
+          class="mb-4 text-pretty text-lg text-neutral-600 dark:text-neutral-400"
+        >
+          {content}
+        </p>
+        <!--Mostrar un botón que navega al usuario de regreso a la página anterior-->
+        <Btn404 title={btnTitle} id="go-back" />
+      </div>
+    </div>
+  </section>
+</MainLayout>
+<!--Código JavaScript que añade un evento de clic al botón, resultando en volver a la página anterior en el historial-->
+<script>
+  document.getElementById("go-back")?.addEventListener("click", () => {
+    history.back();
+  });
+</script>

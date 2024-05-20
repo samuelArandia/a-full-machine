@@ -1,0 +1,38 @@
+{
+    "title": "Precios Simples y Transparentes",
+    "subTitle": "Aumenta la eficiencia con los planes claros y enfocados en el valor de A toda makina.",
+    "badge": "Mejor Valor",
+    "thirdOption": "¿Soluciones Empresariales?",
+    "btnText": "Obtén una Cotización Personalizada",
+  
+    "starterKit": {
+      "name": "Kit de Inicio",
+      "description": "La mejor opción para proyectos de bricolaje",
+      "price": "$49",
+      "cents": ".00",
+      "billingFrequency": "USD / mensual",
+      "features": [
+        "Herramientas esenciales",
+        "Acceso a guías y tutoriales",
+        "Soporte estándar"
+      ],
+      "purchaseBtnTitle": "Obtén el Kit de Inicio",
+      "purchaseLink": "#"
+    },
+  
+    "professionalToolbox": {
+      "name": "Caja de Herramientas Profesional",
+      "description": "Ideal para uso a gran escala",
+      "price": "$89",
+      "cents": ".00",
+      "billingFrequency": "USD / mensual",
+      "features": [
+        "Selección de herramientas premium",
+        "Soporte prioritario",
+        "Contenido y ofertas exclusivas",
+        "Descuentos en pedidos al por mayor"
+      ],
+      "purchaseBtnTitle": "Obtén la Caja de Herramientas Profesional",
+      "purchaseLink": "#"
+    }
+  }

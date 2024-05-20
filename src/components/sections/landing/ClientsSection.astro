@@ -1,0 +1,156 @@
+---
+import { Image } from "astro:assets";
+import convet from "@images/clients/convet.png";
+import demo from "@images/clients/demo.png";
+import grevia from "@images/clients/grevia.png";
+import igh from "@images/clients/igh.png";
+import inarco from "@images/clients/inarco.png";
+import izquierdo from "@images/clients/izquierdo.png";
+import moller from "@images/clients/moller.png";
+import paz from "@images/clients/paz.png";
+import suizcorp from "@images/clients/suizcop.png";
+import tecnasic from "@images/clients/tecnasic.png";
+import vive from "@images/clients/vive.png";
+
+// Define props from Astro
+const { title, subTitle } = Astro.props;
+
+// Define TypeScript interface for props
+interface Props {
+  title: string;
+  subTitle?: string;
+}
+
+const clients = [
+  { src: convet, alt: "Convet" },
+  { src: demo, alt: "Demo" },
+  { src: grevia, alt: "Grevia" },
+  { src: igh, alt: "IGH" },
+  { src: inarco, alt: "Inarco" },
+  { src: izquierdo, alt: "Izquierdo" },
+  { src: moller, alt: "Moller" },
+  { src: paz, alt: "Paz" },
+  { src: suizcorp, alt: "Suizcorp" },
+  { src: tecnasic, alt: "Tecnasic" },
+  { src: vive, alt: "Vive" },
+];
+---
+
+<section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
+  <!-- Title and description -->
+  <div class="mx-auto mb-6 w-full space-y-1 text-center sm:w-1/2 lg:w-1/3">
+    <h2 class="text-balance text-2xl font-bold leading-tight text-neutral-800 dark:text-neutral-200 sm:text-3xl">
+      {title}
+    </h2>
+    {subTitle && (
+      <p class="text-pretty leading-tight text-neutral-600 dark:text-neutral-400">
+        {subTitle}
+      </p>
+    )}
+  </div>
+  <div class="scroller" data-direction="right" data-speed="slow">
+    <div class="scroller__inner">
+        {clients.map((item) => (
+          <Image
+            src={item.src}
+            alt={item.alt}
+            class="mx-auto h-auto w-32 py-3 sm:mx-0 lg:w-40 lg:py-5"
+            style="fill:#6B7280;fill-opacity:1;fill-rule:nonzero;stroke:none"
+            draggable={"false"}
+            loading={"eager"}
+            format={"png"}
+          />
+        ))}
+    
+    </div>
+  </div>
+</section>
+
+<style>
+  .scroller {
+    max-width: 100%;
+  }
+
+  .scroller__inner {
+    padding-block: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .scroller[data-animated="true"] {
+    overflow: hidden;
+    -webkit-mask: linear-gradient(
+      90deg,
+      transparent,
+      white 20%,
+      white 80%,
+      transparent
+    );
+    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  }
+
+  .scroller[data-animated="true"] .scroller__inner {
+    width: max-content;
+    flex-wrap: nowrap;
+    animation: scroll var(--_animation-duration, 40s)
+      var(--_animation-direction, forwards) linear infinite;
+  }
+
+  .scroller[data-direction="right"] {
+    --_animation-direction: reverse;
+  }
+
+  .scroller[data-direction="left"] {
+    --_animation-direction: forwards;
+  }
+
+  .scroller[data-speed="fast"] {
+    --_animation-duration: 20s;
+  }
+
+  .scroller[data-speed="slow"] {
+    --_animation-duration: 60s;
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+</style>
+
+<script>
+  if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const scrollers = document.querySelectorAll<HTMLElement>(".scroller");
+
+      // If a user hasn't opted in for reduced motion, then we add the animation
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        addAnimation();
+      }
+
+      function addAnimation() {
+        scrollers.forEach((scroller) => {
+          // Add data-animated="true" to every `.scroller` on the page
+          scroller.setAttribute("data-animated", "true");
+
+          // Make an array from the elements within `.scroller-inner`
+          const scrollerInner = scroller.querySelector<HTMLElement>(".scroller__inner");
+          if (scrollerInner) {
+            const scrollerContent = Array.from(scrollerInner.children) as HTMLElement[];
+
+            // For each item in the array, clone it
+            // Add aria-hidden to it
+            // Add it into the `.scroller-inner`
+            scrollerContent.forEach((item) => {
+              const duplicatedItem = item.cloneNode(true) as HTMLElement;
+              duplicatedItem.setAttribute("aria-hidden", "true");
+              scrollerInner.appendChild(duplicatedItem);
+            });
+          }
+        });
+      }
+    });
+  }
+</script>

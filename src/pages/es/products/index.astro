@@ -1,0 +1,136 @@
+---
+// Importar los componentes necesarios
+import MainLayout from "@/layouts/MainLayout.astro";
+import PrimaryCTA from "@components/ui/buttons/PrimaryCTA.astro";
+import CardSmall from "@components/ui/cards/CardSmall.astro";
+import CardWide from "@components/ui/cards/CardWide.astro";
+import FeaturesStatsAlt from "@components/sections/features/FeaturesStatsAlt.astro";
+import TestimonialsSectionAlt from "@components/sections/testimonials/TestimonialsSectionAlt.astro";
+
+// Importar las funciones necesarias de Astro
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+// Obtener todo el contenido relacionado con productos y ordenarlo por main.id
+const product: CollectionEntry<"products">[] = (
+  await getCollection("products")
+).sort(
+  (a: CollectionEntry<"products">, b: CollectionEntry<"products">) =>
+    a.data.main.id - b.data.main.id
+);
+
+// Definir variables para el contenido de la página
+const title: string = "Productos";
+const subTitle: string =
+  "Explora la durabilidad y precisión de las herramientas A toda makina, diseñadas tanto para profesionales como para aficionados. Cada uno de nuestros productos está fabricado con precisión y diseñado para durar, asegurando que tengas la herramienta adecuada para cada tarea.";
+
+// Datos de testimonios que se mostrarán en el componente
+const testimonials = [
+  {
+    content:
+      "Desde que adoptamos las herramientas de A toda makina, la eficiencia en nuestros sitios de construcción ha aumentado enormemente. La durabilidad de los pernos hexagonales y la precisión de los tornillos para máquinas son simplemente inigualables. Es refrescante trabajar con una empresa que realmente comprende las demandas diarias de la industria.",
+    author: "Jason Clark",
+    role: "Capataz de obra | TopBuild",
+    avatarSrc:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
+    avatarAlt: "Descripción de la imagen",
+  },
+
+  {
+    content:
+      "Como diseñadora de interiores, siempre busco materiales y herramientas de alta calidad que me ayuden a dar vida a mis visiones. El surtido de tornillos mixtos de A toda makina ha revolucionado mis proyectos, ofreciendo la mezcla perfecta de calidad y variedad. ¡El excepcional servicio al cliente fue la cereza en el pastel!",
+    author: "Maria Gonzalez",
+    role: "Diseñadora de interiores | Creative Spaces",
+    avatarSrc:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
+    avatarAlt: "Descripción de la imagen",
+  },
+
+  {
+    content:
+      "He sido carpintero profesional por más de 15 años, y puedo decir sinceramente que los pernos y tuercas de A toda makina están entre los mejores que he usado. Se adhieren como ningún otro, y tengo total confianza en cada junta y componente. Además, el servicio es impecable: realmente se preocupan por el éxito de mi proyecto.",
+    author: "Richard Kim",
+    role: "Maestro carpintero | WoodWright",
+    avatarSrc:
+      "https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
+    avatarAlt: "Descripción de la imagen",
+  },
+];
+---
+
+<MainLayout
+  title="Productos | A toda makina"
+  lang="es"
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://screwfast.uk/es/products",
+    url: "https://screwfast.uk/es/products",
+    name: "Arriendo de Herramientas y Maquinaria | A toda makina",
+    description:
+      "Explora la durabilidad y precisión de las herramientas A toda makina, diseñadas tanto para profesionales como para entusiastas.",
+    isPartOf: {
+      "@type": "WebSite",
+      url: "https://screwfast.uk/es",
+      name: "A toda makina",
+      description:
+        "A toda makina ofrece arriendos de herramientas de primera calidad y servicios de construcción expertos para satisfacer todas tus necesidades de proyecto.",
+    },
+    inLanguage: "es",
+  }}
+>
+  <div
+    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+  >
+    <div class="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
+      <div class="flex items-center gap-12">
+        <h1
+          class="text-balance text-2xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight"
+        >
+          {title}
+        </h1>
+        {
+          subTitle && (
+            <p class="hidden max-w-screen-sm text-pretty text-neutral-600 dark:text-neutral-400 md:block">
+              {subTitle}
+            </p>
+          )
+        }
+      </div>
+      <PrimaryCTA
+        title="Historias de clientes"
+        url="#testimonials"
+        noArrow={true}
+      />
+    </div>
+    <!--Mostrar productos en estilos alternativos. Producto alternativo obtiene un estilo de tarjeta diferente.-->
+    <!--Recorre todas las entradas de productos y las muestra con CardSmall o CardWide según su posición.-->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
+      {
+        product.map((product, index) => {
+          const position = index % 4;
+          if (position === 0 || position === 3) {
+            return <CardSmall product={product} />;
+          } else {
+            return <CardWide product={product} />;
+          }
+        })
+      }
+    </section>
+  </div>
+  <!--Sección de estadísticas de características-->
+  <FeaturesStatsAlt
+    title="¿Por qué elegir A toda makina?"
+    subTitle="Transforma tus ideas en resultados tangibles con las herramientas A toda makina. Ya sea que comiences con un boceto en una servilleta o te adentres en un proyecto de construcción completo, nuestras herramientas están diseñadas para ayudarte a construir con confianza."
+    benefits={[
+      "Herramientas robustas y fiables para un rendimiento duradero.",
+      "Soluciones innovadoras adaptadas a las necesidades de construcción modernas.",
+      "Atención al cliente dedicada al éxito de tu proyecto.",
+    ]}
+  />
+  <!--Sección de testimonios-->
+  <TestimonialsSectionAlt
+    title="Lo que dicen nuestros clientes"
+    testimonials={testimonials}
+  />
+</MainLayout>
