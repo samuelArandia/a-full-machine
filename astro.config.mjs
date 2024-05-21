@@ -11,12 +11,6 @@ export default defineConfig({
   },
   image: {
     domains: ["images.unsplash.com"],
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-     },
-    },
   },
   i18n: {
     defaultLocale: "es",
@@ -35,7 +29,5 @@ export default defineConfig({
     // directRenderScript: true
   },
   output: 'server',
-  adapter: cloudflare({
-     imageService: 'cloudflare'
-  }),
+  adapter: cloudflare(),
 });
