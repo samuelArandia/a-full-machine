@@ -173,7 +173,7 @@ const pageTitle: string = `${post.data.title} | ${SITE.title}`;
 
   document.addEventListener("DOMContentLoaded", (event) => {
     window.onscroll = onScroll;
-
+    console.log("Scroll event listener added", event);
     // Set initial width of progress bar
     const progressBar = document.getElementById("progress");
     const progressBarMobile = document.getElementById("progress-mobile");

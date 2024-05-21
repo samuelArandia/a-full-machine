@@ -3,44 +3,39 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from '@astrojs/cloudflare';
 
-
-// https://astro.build/config
 export default defineConfig({
-  // https://docs.astro.build/en/guides/images/#authorizing-remote-images
-  // site: "https://samuelarandia.github.io",
-  // base: "/machines/",
-  output: 'server',
-  adapter: cloudflare(),
+  vite: {
+    ssr: {
+      external: ['broken-npm-package'],
+    }
+  },
   image: {
     domains: ["images.unsplash.com"],
-    unoptimized: true
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false,
+     },
+    },
   },
   i18n: {
     defaultLocale: "es",
-    locales: ["en", "fr", "es"],
+    locales: ["en", "fr", "es"], 
     fallback: {
       fr: "en"
     },
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true,
     }
   },
   prefetch: true,
-  integrations: [tailwind(), sitemap({
-    i18n: {
-      defaultLocale: "es",
-      // All urls that don't contain `fr` after `https://screwfast.uk/` will be treated as default locale, i.e. `en`
-      locales: {
-        en: "en",
-        // The `defaultLocale` value must present in `locales` keys
-        fr: "fr",
-        es: "es"
-      }
-    }
-  })],
-  // experimental: {
-  //   clientPrerender: true,
-  //   directRenderScript: true
-  // },
-  // adapter: vercel()
+  integrations: [tailwind(), sitemap()],
+  experimental: {
+    clientPrerender: true,
+    // directRenderScript: true
+  },
+  output: 'server',
+  adapter: cloudflare({
+     imageService: 'cloudflare'
+  }),
 });
