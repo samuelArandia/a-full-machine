@@ -27,11 +27,10 @@ const footerLinks = [
 ];
 
 const socialLinks = {
-  facebook: "#",
-  x: "#",
-  github: "https://github.com/mearashadowfax/A toda makina",
-  google: "#",
-  slack: "#",
+  facebook: "https://www.instagram.com/atodamakina.cl",
+  x: "https://www.instagram.com/atodamakina.cl",
+  instagram: "https://www.instagram.com/atodamakina.cl",
+  google: "https://maps.app.goo.gl/rvMSRvFjWNmcmh7D6",
 };
 
 export default {

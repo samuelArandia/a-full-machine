@@ -1,6 +1,6 @@
 ---
+import Icon from "@components/ui/icons/Icon.astro"; 
 const { title, btnId, btnTitle, url } = Astro.props;
-
 interface Props {
   title?: string;
   btnId: string;
@@ -33,6 +33,7 @@ interface Props {
             target="_blank"
           >
             {btnTitle}
+            <Icon name="instagram" />
             <svg
               class="size-4 flex-shrink-0 transition duration-300 group-hover:translate-x-1"
               width="24"

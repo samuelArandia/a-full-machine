@@ -28,11 +28,10 @@ const footerLinks = [
 ];
 // An object of links for social icons
 const socialLinks = {
-  facebook: "https://www.facebook.com/",
-  x: "https://twitter.com/",
-  github: "https://github.com/mearashadowfax/A toda makina",
-  google: "https://www.google.com/",
-  slack: "https://slack.com/",
+  facebook: "https://www.instagram.com/atodamakina.cl",
+  x: "https://www.instagram.com/atodamakina.cl",
+  instagram: "https://www.instagram.com/atodamakina.cl",
+  google: "https://maps.app.goo.gl/rvMSRvFjWNmcmh7D6",
 };
 
 export default {
