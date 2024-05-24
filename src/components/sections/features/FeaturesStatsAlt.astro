@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import product5 from "@images/features-image.avif";
+import product5 from "@images/product-image-7.jpeg";
+import PrimaryCTA from "@/components/ui/buttons/PrimaryCTA.astro";
 
 // Define props from Astro
 const { title, subTitle, benefits } = Astro.props;
@@ -54,6 +55,11 @@ const ListItemMarker: string = `<svg fill="none" viewBox="0 0 24 24" stroke-widt
             </ul>
           )
         }
+        <PrimaryCTA 
+        title="Cotizar ahora"
+        url="/es/contact"
+        noArrow={true}
+        >
       </div>
     </div>
   </div>

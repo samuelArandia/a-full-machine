@@ -1,32 +1,31 @@
-// An array of links for navigation bar
 const navBarLinks = [
-  { name: "Home", url: "/" },
-  { name: "Products", url: "/products" },
-  { name: "Services", url: "/services" },
-  // { name: "Blog", url: "/blog" },
-  { name: "Contact", url: "/contact" },
+  { name: "Inicio", url: "/es" },
+  { name: "Productos", url: "/es/products" },
+  { name: "Servicios", url: "/es/services" },
+  // { name: "Blog", url: "/es/blog" },
+  { name: "Contacto", url: "/es/contact" },
 ];
-// An array of links for footer
+
 const footerLinks = [
   {
-    section: "Ecosystem",
+    section: "Ecosistema",
     links: [
-      // { name: "Documentation", url: "/welcome-to-docs/" },
-      { name: "Tools & Equipment", url: "/products" },
-      { name: "Construction Services", url: "/services" },
+      // { name: "Documentación", url: "/es/welcome-to-docs/" },
+      { name: "Herramientas y Equipamiento", url: "/es/products" },
+      { name: "Servicios de Construcción", url: "/es/services" },
     ],
   },
   {
-    section: "Company",
+    section: "Empresa",
     links: [
-      { name: "About us", url: "#" },
-      // { name: "Blog", url: "/blog" },
-      { name: "Careers", url: "#" },
-      { name: "Customers", url: "#" },
+      { name: "Contacto", url: "/es/contact" },
+      // { name: "Blog", url: "/es/blog" },
+      { name: "Carreras", url: "#" },
+      { name: "Clientes", url: "#" },
     ],
   },
 ];
-// An object of links for social icons
+
 const socialLinks = {
   facebook: "https://www.instagram.com/atodamakina.cl",
   x: "https://www.instagram.com/atodamakina.cl",

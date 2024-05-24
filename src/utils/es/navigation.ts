@@ -18,7 +18,7 @@ const footerLinks = [
   {
     section: "Empresa",
     links: [
-      { name: "Acerca de nosotros", url: "#" },
+      { name: "Contacto", url: "/es/contact" },
       // { name: "Blog", url: "/es/blog" },
       { name: "Carreras", url: "#" },
       { name: "Clientes", url: "#" },
