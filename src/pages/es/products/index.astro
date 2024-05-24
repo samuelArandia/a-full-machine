@@ -10,6 +10,7 @@ import TestimonialsSectionAlt from "@components/sections/testimonials/Testimonia
 // Importar las funciones necesarias de Astro
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { SITE } from "@data/constants";
 
 // Obtener todo el contenido relacionado con productos y ordenarlo por main.id
 const product: CollectionEntry<"products">[] = (
