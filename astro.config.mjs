@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
+  site: 'https://www.atodamakina.cl',
   vite: {
     ssr: {
       external: ['broken-npm-package'],
