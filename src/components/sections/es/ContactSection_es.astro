@@ -12,9 +12,9 @@ import Icon from "@components/ui/icons/Icon.astro";
 const title: string = "Contáctanos";
 const subTitle: string =
   "¿Tienes preguntas o deseas discutir un proyecto? Contáctanos y elaboremos juntos la solución perfecta con nuestras herramientas y servicios.";
-const formTitle: string = "Rellena el formulario a continuación";
+const formTitle: string = "Cotiza con nosotros al whatsapp";
 const formSubTitle: string =
-  "Te responderemos en un plazo de 1 a 2 días hábiles.";
+  "Te responderemos dentro de plazo de 12 horas. También puedes visitar nuestra sección de preguntas frecuentes para obtener respuestas rápidas a las preguntas más comunes.";
 ---
 
 <!-- Contáctanos -->
@@ -40,7 +40,7 @@ const formSubTitle: string =
         </h2>
         <!-- Formulario para la entrada del usuario con varios campos de entrada.-->
         <!-- Cada campo utiliza un componente de entrada diferente para el tipo específico de entrada (texto, email, teléfono y área de texto)-->
-        <form>
+        <form id="contactForm">
           <div class="grid gap-4">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <TextInput
@@ -51,7 +51,7 @@ const formSubTitle: string =
               <TextInput
                 id="hs-lastname-contacts"
                 label="Apellido"
-                name="hs-firstname-contacts"
+                name="hs-lastname-contacts"
               />
             </div>
             <EmailContactInput id="hs-email-contacts" />
@@ -64,7 +64,7 @@ const formSubTitle: string =
           </div>
 
           <div class="mt-4 grid">
-            <AuthBtn title="Enviar mensaje" />
+            <AuthBtn title="Ir al whatsapp" dataAttr="sendToWhatsApp" />
           </div>
 
           <div class="mt-3 text-center">
@@ -100,14 +100,14 @@ const formSubTitle: string =
           heading="Contáctanos por correo electrónico"
           content="¿Prefieres el texto escrito? Envíanos un correo electrónico a"
           isLinkVisible={true}
-          linkTitle="angelm@atodamakina.cl"
-          linkURL="mailto:angelm@atodamakina.cl"
+          linkTitle="arriendos@atodamakina.cl"
+          linkURL="mailto:arriendos@atodamakina.cl"
           ><Icon name="envelopeOpen" />
         </ContactIconBlock>
 
         <ContactIconBlock
-        heading="Llámanos"
-        content="¿Prefieres hablar por teléfono? Llámanos al"
+        heading="Escribenos por whatsapp"
+        content="Si tienes alguna duda o consulta, no dudes en escribirnos por whatsapp"
         isLinkVisible={true}
         linkTitle="tel:+569 6191 0135"
         linkURL="tel:+569 6191 0135"
@@ -117,3 +117,36 @@ const formSubTitle: string =
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('click', function(event) {
+  const targetElement = event.target as HTMLElement;
+  if (targetElement && targetElement.getAttribute('data-action') === 'sendToWhatsApp') {
+    sendToWhatsApp();
+  }
+});
+
+function sendToWhatsApp() {
+  const nameElement = document.getElementById('hs-firstname-contacts') as HTMLInputElement;
+  const surnameElement = document.getElementById('hs-lastname-contacts') as HTMLInputElement;
+  const emailElement = document.getElementById('hs-email-contacts') as HTMLInputElement;
+  const phoneElement = document.getElementById('hs-phone-number') as HTMLInputElement;
+  const detailElement = document.getElementById('hs-about-contacts') as HTMLInputElement;
+
+  if (nameElement && surnameElement && emailElement && phoneElement && detailElement) {
+    var name = nameElement.value;
+    var surname = surnameElement.value;
+    var email = emailElement.value;
+    var phone = phoneElement.value;
+    var detail = detailElement.value;
+
+    var message = `Hola a toda makina, Quiero arrenda con ustedes. Mi nombre es ${name} ${surname}. Mi correo es ${email} y mi teléfono es ${phone}. El detalle de mi solicitud es: ${detail}. Espero su respuesta.`;
+    var whatsappUrl = `https://api.whatsapp.com/send?phone=56961910135&text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, '_blank');
+  } else {
+    // Handle the case where one or more elements are not found
+    console.error('One or more form elements were not found.');
+  }
+}
+</script>

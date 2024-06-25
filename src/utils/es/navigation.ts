@@ -21,7 +21,7 @@ const footerLinks = [
       { name: "Contacto", url: "/es/contact" },
       // { name: "Blog", url: "/es/blog" },
       { name: "Carreras", url: "#" },
-      { name: "Clientes", url: "#" },
+      { name: "Aliados", url: "#" },
     ],
   },
 ];
