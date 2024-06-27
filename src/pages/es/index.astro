@@ -26,6 +26,8 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 //   "https://images.unsplash.com/photo-1541101767792-f9b2b1c4f127?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&&auto=format&fit=facearea&facepad=3&w=300&h=300&q=80",
 //   "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80",
 // ];
+
+
 ---
 
 <MainLayout lang="es">
@@ -36,7 +38,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
   />
 
   <HeroSection
-    title=`Equipa tus proyectos arrendando con <span class="text-yellow-500 dark:text-yellow-400">A toda makina</span>`
+    title=`Equipa tus proyectos arrendando con <span style="background:#FACC15">A toda makina</span>`
     subTitle="Arrienda herramientas y maquinarias de alta calidad, ademas contamos con servicios de construcción expertos para todas las necesidades de tu proyecto."
     primaryBtn="Comienza a explorar"
     primaryBtnURL={getRelativeLocaleUrl("es", "products")}
@@ -96,7 +98,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
       {
         content:
           "A toda makina ha aumentado considerablemente la eficiencia de nuestro proyecto. La calidad de sus maquinarias y herramientas es insuperable.",
-        author: "Paula",
+        author: "Paula Zuniga",
         role: "Arquitecta",
         avatarSrc:
           "https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?q=80&w=1453&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
