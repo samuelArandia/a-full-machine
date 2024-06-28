@@ -1,12 +1,12 @@
-import ogImageSrc from "@images/social.png";
+import ogImageSrc from "@images/tool2.jpeg";
 
 export const SITE = {
   title: "A toda makina",
-  tagline: "Top-quality Hardware Tools",
-  description: "A toda makina offers top-tier hardware tools and expert construction services to meet all your project needs. Start exploring and contact our sales team for superior quality and reliability.",
-  description_short: "A toda makina offers top-tier hardware tools and expert construction services to meet all your project needs.",
-  url: "https://screwfast.uk",
-  author: "Emil Gulamov",
+  tagline: "Arriendo de maquinaria, herramientas y equipos para la construcción",
+  description: "A toda makina ofrece el servicio de arriendo de maquinaria, herramientas y equipos para la construcción como placas compactadoras, martillos demoledores, rodillos, escaleras, generadores eléctricos, entre otros.",
+  description_short: "A toda makina ofrece el servicio de arriendo de maquinaria, herramientas y equipos para la construcción.",
+  url: "https://atodamakina.cl",
+  author: "Samuel Arandia",
 };
 
 export const SEO = {
@@ -33,7 +33,7 @@ export const OG = {
   locale: "en_US",
   type: "website",
   url: SITE.url,
-  title: `${SITE.title}: : Hardware Tools & Construction Services`,
-  description: "Equip your projects with A toda makina's top-quality hardware tools and expert construction services. Trusted by industry leaders, A toda makina offers simplicity, affordability, and reliability. Experience the difference with user-centric design and cutting-edge tools. Start exploring now!",
+  title: `${SITE.title}: : Herramientas y equipos para la construcción`,
+  description: "En A toda makina ofrecemos herramientas, maquinas, grupos electrogenos y equipos para la construcción, arriendo de maquinaria, herramientas y equipos para la construcción.",
   image: ogImageSrc,
 };
