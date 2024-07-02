@@ -1,5 +1,5 @@
 ---
-// Importing necessary components
+// Importar los componentes necesarios
 import MainLayout from "@/layouts/MainLayout.astro";
 import PrimaryCTA from "@components/ui/buttons/PrimaryCTA.astro";
 import CardSmall from "@components/ui/cards/CardSmall.astro";
@@ -7,77 +7,77 @@ import CardWide from "@components/ui/cards/CardWide.astro";
 import FeaturesStatsAlt from "@components/sections/features/FeaturesStatsAlt.astro";
 import TestimonialsSectionAlt from "@components/sections/testimonials/TestimonialsSectionAlt.astro";
 
-// Importing necessary functions from Astro
+// Importar las funciones necesarias de Astro
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { SITE } from "@data/constants";
 
-// Fetching all the product related content and sorting it by main.id
+// Obtener todo el contenido relacionado con productos y ordenarlo por main.id
 const product: CollectionEntry<"products">[] = (
   await getCollection("products")
 ).sort(
   (a: CollectionEntry<"products">, b: CollectionEntry<"products">) =>
-    a.data.main.id - b.data.main.id,
+    a.data.main.id - b.data.main.id
 );
 
-// Define variables for page content
-const title: string = "Products";
+// Definir variables para el contenido de la página
+const title: string = "Productos";
 const subTitle: string =
-  "Explore the durability and precision of A toda makina tools, designed for both professionals and enthusiasts. Each of our products is crafted with precision and built to last, ensuring you have the right tool for every job.";
+  "Contamos con una amplia gama de herramientas y maquinaria de construcción para satisfacer todas tus necesidades de proyecto. Tenemos desde cinceladores hasta rodillos compactadores, y todo lo demás en el medio. Explora nuestra selección y descubre la calidad y durabilidad de A toda makina.";
 
-// Testimonial data that will be rendered in the component
+// Datos de testimonios que se mostrarán en el componente
 const testimonials = [
-  // First testimonial data
   {
     content:
-      " \"Since switching to A toda makina's hardware tools, the efficiency on our construction sites has skyrocketed. The durability of the hex bolts and precision of the machine screws are simply unmatched. It's refreshing to work with a company that truly understands the daily demands of the industry.\" ",
-    author: "Jason Clark",
-    role: "Site Foreman | TopBuild",
-    avatarSrc:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-    avatarAlt: "Image Description",
+      "Desde que adoptamos las herramientas de A toda makina, la eficiencia en nuestros sitios de construcción ha aumentado enormemente. La durabilidad de los pernos hexagonales y la precisión de los tornillos para máquinas son simplemente inigualables. Es refrescante trabajar con una empresa que realmente comprende las demandas diarias de la industria.",
+    author: "Raul Villalobos",
+    role: "Capataz de obra",
+    // icono de persona 
+    avatarSrc: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
+    avatarAlt: "Descripción de la imagen",
   },
-  // Second testimonial data
+
   {
     content:
-      " \"As an interior designer, I'm always looking for high-quality materials and tools that help bring my visions to life. A toda makina's mixed screws assortment has been a game-changer for my projects, providing the perfect blend of quality and variety. The outstanding customer support was just the cherry on top!\" ",
-    author: "Maria Gonzalez",
-    role: "Interior Designer | Creative Spaces",
+      "Como arquictecto, siempre busco materiales y herramientas de alta calidad que me ayuden a dar vida a mis visiones. El surtido de tornillos mixtos de A toda makina ha revolucionado mis proyectos, ofreciendo la mezcla perfecta de calidad y variedad. ¡El excepcional servicio al cliente fue la cereza en el pastel!",
+    author: "Angel José Montaño",
+    role: "Arquictecto",
     avatarSrc:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-    avatarAlt: "Image Description",
+    avatarAlt: "Descripción de la imagen",
   },
-  // Third testimonial data
+
   {
     content:
-      " \"I’ve been a professional carpenter for over 15 years, and I can sincerely say that A toda makina’s tap bolts and nuts are some of the best I've used. They grip like no other, and I have full confidence in every joint and fixture. Plus, the service is impeccable – they truly care about my project's success.\" ",
-    author: "Richard Kim",
-    role: "Master Carpenter | WoodWright",
+      "He sido carpintero profesional por más de 15 años, y puedo decir sinceramente que los pernos y tuercas de A toda makina están entre los mejores que he usado. Se adhieren como ningún otro, y tengo total confianza en cada junta y componente. Además, el servicio es impecable: realmente se preocupan por el éxito de mi proyecto.",
+    author: "Felipe Venegas",
+    role: "Maestro carpintero",
     avatarSrc:
       "https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-    avatarAlt: "Image Description",
+    avatarAlt: "Descripción de la imagen",
   },
 ];
-
-const pageTitle: string = `Products | ${SITE.title}`;
 ---
 
 <MainLayout
-  title={pageTitle}
+  title="Productos | A toda makina"
+  lang="es"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": "https://screwfast.uk/products",
-    "url": "https://screwfast.uk/products",
-    "name": "Arriendo de Herramientas y Maquinarias | A toda makina",
-    "description": "Explore the durability and precision of A toda makina tools, designed for both professionals and enthusiasts.",
-    "isPartOf": {
+    "@id": "https://screwfast.uk/es/products",
+    url: "https://screwfast.uk/es/products",
+    name: "Arriendo de Herramientas y Maquinaria | A toda makina",
+    description:
+      "Explora la durabilidad y precisión de las herramientas A toda makina, diseñadas tanto para profesionales como para entusiastas.",
+    isPartOf: {
       "@type": "WebSite",
-      "url": "https://screwfast.uk",
-      "name": "A toda makina",
-      "description": "A toda makina offers top-tier hardware tools and expert construction services to meet all your project needs."
+      url: "https://screwfast.uk/es",
+      name: "A toda makina",
+      description:
+        "A toda makina ofrece arriendos de herramientas de primera calidad y servicios de construcción expertos para satisfacer todas tus necesidades de proyecto.",
     },
-    "inLanguage": "en-US"
+    inLanguage: "es",
   }}
 >
   <div
@@ -98,10 +98,14 @@ const pageTitle: string = `Products | ${SITE.title}`;
           )
         }
       </div>
-      <PrimaryCTA title="Customer Stories" url="#testimonials" noArrow={true} />
+      <PrimaryCTA
+        title="Historias de clientes"
+        url="#testimonials"
+        noArrow={true}
+      />
     </div>
-    <!--Displaying products in alternating styles. Alternative product gets different card styling.-->
-    <!--Maps through all product entries and displays them with either CardSmall or CardWide based on their position.-->
+    <!--Mostrar productos en estilos alternativos. Producto alternativo obtiene un estilo de tarjeta diferente.-->
+    <!--Recorre todas las entradas de productos y las muestra con CardSmall o CardWide según su posición.-->
     <section class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
       {
         product.map((product, index) => {
@@ -115,19 +119,19 @@ const pageTitle: string = `Products | ${SITE.title}`;
       }
     </section>
   </div>
-  <!--Features statistics section-->
+  <!--Sección de estadísticas de características-->
   <FeaturesStatsAlt
-    title="Why Choose A toda makina?"
-    subTitle="Transform your ideas into tangible results with A toda makina tools. Whether you're starting with a sketch on a napkin or diving into a comprehensive construction project, our tools are engineered to help you build with confidence."
+    title="¿Por qué elegir A toda makina?"
+    subTitle="Transforma tus ideas en resultados tangibles con las herramientas A toda makina. Ya sea que comiences con un boceto en una servilleta o te adentres en un proyecto de construcción completo, nuestras herramientas están diseñadas para ayudarte a construir con confianza."
     benefits={[
-      "Robust and reliable tools for long-lasting performance.",
-      "Innovative solutions tailored to modern construction needs.",
-      "Customer support dedicated to your project's success.",
+      "Herramientas robustas y fiables para un rendimiento duradero.",
+      "Soluciones innovadoras adaptadas a las necesidades de construcción modernas.",
+      "Atención al cliente dedicada al éxito de tu proyecto.",
     ]}
   />
-  <!--Testimonials section-->
+  <!--Sección de testimonios-->
   <TestimonialsSectionAlt
-    title="What Our Customers Say"
+    title="Lo que dicen nuestros clientes"
     testimonials={testimonials}
   />
 </MainLayout>
