@@ -2,7 +2,7 @@ import ogImageSrc from "@images/tool2.jpeg";
 
 export const SITE = {
   title: "Arriendo de Herramientas y Maquinaria | A Toda Makina",
-  tagline: "Arriendo de maquinaria, herramientas y equipos para la construcción",
+  tagline: "Arriendo de herramientas, maquinas y equipos para la construcción",
   description: "A toda makina ofrece el servicio de arriendo de maquinaria, herramientas y equipos para la construcción como placas compactadoras, martillos demoledores, rodillos, escaleras, generadores eléctricos, entre otros. Contactanos para más información.",
   description_short: "A toda makina ofrece el servicio de arriendo de maquinaria, herramientas y equipos para la construcción.",
   url: "https://atodamakina.cl",
