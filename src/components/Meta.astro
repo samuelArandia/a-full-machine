@@ -1,7 +1,7 @@
 ---
 import { getImage } from "astro:assets";
 import { OG, SEO, SITE } from "@data/constants";
-import faviconSvgSrc from "@images/hero-image.png";
+// import faviconSvgSrc from "@images/hero-image.png";
 import faviconSrc from "@images/hero-image.png";
 
 // Default properties for the Meta component. These values are used if props are not provided.
@@ -61,10 +61,10 @@ const alternateLanguageLinks: string = Object.entries(languages)
   .join("\n");
 
 // Generate and optimize the favicon images
-const faviconSvg = await getImage({
-  src: faviconSvgSrc,
-  format: "svg",
-});
+// const faviconSvg = await getImage({
+//   src: faviconSvgSrc,
+//   format: "svg",
+// });
 
 const appleTouchIcon = await getImage({
   src: faviconSrc,
