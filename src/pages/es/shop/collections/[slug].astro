@@ -1,0 +1,173 @@
+---
+/**
+ * ATM Rent - Página de Colección Individual (Categoría)
+ * Muestra todos los productos de una categoría específica
+ */
+import EcommerceLayout from "@/layouts/EcommerceLayout.astro";
+import CollectionHeader from "@components/ecommerce/CollectionHeader.astro";
+import ProductCard from "@components/ecommerce/ProductCard.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+// Category mapping
+const categoryMap: Record<string, { name: string; description: string }> = {
+  "compactacion-pavimentacion": {
+    name: "Compactación y Pavimentación",
+    description: "Rodillos compactadores, placas vibratorias, apisonadores y equipos para pavimentación profesional. Ideales para obras de construcción, carreteras y proyectos de infraestructura."
+  },
+  "generadores-energia": {
+    name: "Generadores y Energía",
+    description: "Grupos electrógenos de alta potencia, torres de iluminación y soluciones de energía portátil para mantener tu obra funcionando en cualquier ubicación."
+  },
+  "demolicion-herramientas": {
+    name: "Demolición y Herramientas",
+    description: "Martillos demoledores, cinceladores, cortadoras de concreto y herramientas especializadas para trabajos de demolición y renovación."
+  },
+  "movimiento-tierra": {
+    name: "Movimiento de Tierra",
+    description: "Retroexcavadoras, minicargadores, excavadoras compactas y equipos para excavación y movimiento de tierra en proyectos de construcción."
+  },
+  "concreto-albanileria": {
+    name: "Concreto y Albañilería",
+    description: "Mezcladoras de concreto, vibradores, reglas vibratorias y equipos esenciales para trabajos de hormigón y albañilería."
+  },
+  "compresores-aire": {
+    name: "Compresores de Aire",
+    description: "Compresores portátiles de alta capacidad y herramientas neumáticas para aplicaciones industriales y de construcción."
+  },
+  "montacargas": {
+    name: "Montacargas y Telehandlers",
+    description: "Equipos de elevación y manipulación de materiales para mover cargas pesadas de manera eficiente y segura."
+  },
+  "andamios-escaleras": {
+    name: "Andamios y Escaleras",
+    description: "Sistemas de andamios modulares, escaleras industriales y plataformas de acceso para trabajo seguro en altura."
+  }
+};
+
+// Generate static paths for all categories
+export function getStaticPaths() {
+  return Object.keys(categoryMap).map(slug => ({
+    params: { slug },
+    props: { slug }
+  }));
+}
+
+const { slug } = Astro.params;
+const category = categoryMap[slug as string] || { name: "Categoría", description: "" };
+
+// Get all products and filter by category (placeholder - in production would filter by category)
+const allProducts: CollectionEntry<"products">[] = await getCollection("products");
+
+// Sort products by ID
+const products = allProducts.sort((a, b) => a.data.main.id - b.data.main.id);
+---
+
+<EcommerceLayout
+  title={`${category.name} - Arriendo de Equipos | ATM Rent`}
+  description={category.description}
+>
+  <CollectionHeader
+    title={category.name}
+    description={category.description}
+    breadcrumbs={[
+      { name: "Inicio", url: "/es/shop" },
+      { name: "Colecciones", url: "/es/shop/collections" }
+    ]}
+    productCount={products.length}
+  />
+
+  <!-- Filters Bar -->
+  <div class="bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-30">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8 py-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <!-- Results count -->
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+          Mostrando <span class="font-semibold">{products.length}</span> productos
+        </p>
+
+        <!-- Sort & Filter -->
+        <div class="flex items-center gap-4">
+          <select
+            class="text-sm border border-neutral-300 dark:border-neutral-600 rounded-lg px-4 py-2 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          >
+            <option value="featured">Destacados</option>
+            <option value="name-asc">Nombre: A-Z</option>
+            <option value="name-desc">Nombre: Z-A</option>
+            <option value="newest">Más recientes</option>
+          </select>
+
+          <!-- View Toggle -->
+          <div class="hidden sm:flex items-center border border-neutral-300 dark:border-neutral-600 rounded-lg overflow-hidden">
+            <button class="px-3 py-2 bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300" title="Vista de cuadrícula">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+            </button>
+            <button class="px-3 py-2 text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300" title="Vista de lista">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <section class="py-12 bg-neutral-50 dark:bg-neutral-800">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+      {products.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <ProductCard
+              id={product.slug}
+              title={product.data.title}
+              sku={product.data.description}
+              description={product.data.main.content}
+              image={product.data.main.imgCard}
+              imageAlt={product.data.main.imgAlt}
+              url={`/es/shop/product/${product.slug}`}
+              isRental={true}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-neutral-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+          </svg>
+          <h3 class="text-xl font-bold text-neutral-700 dark:text-neutral-300 mb-2">No hay productos disponibles</h3>
+          <p class="text-neutral-500 dark:text-neutral-400 mb-6">Estamos trabajando para agregar más equipos a esta categoría.</p>
+          <a href="/es/shop/collections" class="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 font-semibold">
+            Ver todas las categorías
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Request Quote CTA -->
+  <section class="py-12 bg-white dark:bg-neutral-900">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+      <div class="bg-[#0a1628] rounded-2xl p-8 md:p-12 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
+          ¿No encuentras lo que buscas?
+        </h2>
+        <p class="text-neutral-300 mb-6 max-w-2xl mx-auto">
+          Contáctanos y te ayudaremos a encontrar el equipo perfecto para tu proyecto. También ofrecemos soluciones personalizadas.
+        </p>
+        <a
+          href="/es/contact"
+          class="inline-flex items-center justify-center bg-orange-500 text-white px-8 py-4 text-sm font-bold tracking-wider hover:bg-orange-600 transition-colors rounded-lg"
+        >
+          CONTACTAR A VENTAS
+        </a>
+      </div>
+    </div>
+  </section>
+</EcommerceLayout>

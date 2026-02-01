@@ -1,0 +1,286 @@
+---
+import { Image } from "astro:assets";
+
+interface Specification {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  sku: string;
+  description: string;
+  image: any;
+  imageAlt: string;
+  specifications?: Specification[];
+  gallery?: any[];
+  isRental?: boolean;
+}
+
+const {
+  id,
+  title,
+  sku,
+  description,
+  image,
+  imageAlt,
+  specifications = [],
+  gallery = [],
+  isRental = true
+} = Astro.props;
+---
+
+<section class="py-12 md:py-16 bg-white dark:bg-neutral-900">
+  <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+      <!-- Left: Image Gallery -->
+      <div class="space-y-4">
+        <!-- Main Image -->
+        <div class="relative aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden">
+          <Image
+            src={image}
+            alt={imageAlt}
+            class="w-full h-full object-contain p-8"
+            loading="eager"
+            id="main-product-image"
+          />
+          {isRental && (
+            <span class="absolute top-4 left-4 bg-orange-500 text-white text-sm font-bold px-4 py-2 rounded">
+              DISPONIBLE PARA ARRIENDO
+            </span>
+          )}
+        </div>
+
+        <!-- Thumbnail Gallery -->
+        {gallery.length > 0 && (
+          <div class="grid grid-cols-4 gap-3">
+            <button
+              class="thumbnail-btn aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden border-2 border-orange-500"
+              data-image-src={typeof image === 'string' ? image : image.src}
+            >
+              <Image
+                src={image}
+                alt={imageAlt}
+                class="w-full h-full object-contain p-2"
+                loading="lazy"
+              />
+            </button>
+            {gallery.map((img, index) => (
+              <button
+                class="thumbnail-btn aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden border-2 border-transparent hover:border-orange-500 transition-colors"
+                data-image-src={typeof img === 'string' ? img : img.src}
+              >
+                <Image
+                  src={img}
+                  alt={`${imageAlt} - ${index + 2}`}
+                  class="w-full h-full object-contain p-2"
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="lg:sticky lg:top-32 lg:self-start">
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl font-bold text-[#0a1628] dark:text-white">
+          {title}
+        </h1>
+
+        <!-- SKU -->
+        <p class="mt-2 text-neutral-500 dark:text-neutral-400">
+          {sku}
+        </p>
+
+        <!-- Quantity & Add to Quote -->
+        <div class="mt-8 flex items-center gap-4">
+          <!-- Quantity Selector -->
+          <div class="flex items-center border border-neutral-300 dark:border-neutral-600 rounded-lg overflow-hidden">
+            <button
+              type="button"
+              class="quantity-btn px-4 py-3 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              data-action="decrease"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+              </svg>
+            </button>
+            <input
+              type="number"
+              value="1"
+              min="1"
+              max="99"
+              class="quantity-input w-16 text-center py-3 border-x border-neutral-300 dark:border-neutral-600 bg-transparent text-[#0a1628] dark:text-white font-semibold focus:outline-none"
+              id="product-quantity"
+            />
+            <button
+              type="button"
+              class="quantity-btn px-4 py-3 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              data-action="increase"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Add to Quote Button -->
+          <button
+            type="button"
+            class="add-to-quote-detail flex-1 bg-[#0a1628] text-white px-8 py-4 text-sm font-bold tracking-wider hover:bg-orange-500 transition-colors rounded-lg"
+            data-product-id={id}
+            data-product-title={title}
+            data-product-sku={sku}
+          >
+            AGREGAR A COTIZACIÓN
+          </button>
+        </div>
+
+        <!-- Description -->
+        <div class="mt-8 prose prose-neutral dark:prose-invert max-w-none">
+          <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <!-- Specifications Table -->
+        {specifications.length > 0 && (
+          <div class="mt-10">
+            <h2 class="text-xl font-bold text-[#0a1628] dark:text-white mb-4">
+              ESPECIFICACIONES
+            </h2>
+            <div class="border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden">
+              <table class="w-full">
+                <thead>
+                  <tr class="bg-neutral-100 dark:bg-neutral-800">
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                      Especificación
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                      Detalle
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                  {specifications.map((spec, index) => (
+                    <tr class={index % 2 === 0 ? 'bg-white dark:bg-neutral-900' : 'bg-neutral-50 dark:bg-neutral-800/50'}>
+                      <td class="px-6 py-4 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                        {spec.label}
+                      </td>
+                      <td class="px-6 py-4 text-sm text-neutral-600 dark:text-neutral-400">
+                        {spec.value}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        <!-- Contact CTA -->
+        <div class="mt-8 p-6 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+          <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+            ¿Tienes preguntas sobre este equipo? Nuestro equipo está listo para ayudarte.
+          </p>
+          <a
+            href="/es/contact"
+            class="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 font-semibold text-sm transition-colors"
+          >
+            Contactar a ventas
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Quantity controls
+  const quantityInput = document.getElementById('product-quantity') as HTMLInputElement;
+  const quantityBtns = document.querySelectorAll('.quantity-btn');
+
+  quantityBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = (btn as HTMLElement).dataset.action;
+      let value = parseInt(quantityInput.value) || 1;
+
+      if (action === 'increase' && value < 99) {
+        value++;
+      } else if (action === 'decrease' && value > 1) {
+        value--;
+      }
+
+      quantityInput.value = value.toString();
+    });
+  });
+
+  // Add to quote (detail page)
+  const addToQuoteBtn = document.querySelector('.add-to-quote-detail');
+  addToQuoteBtn?.addEventListener('click', () => {
+    const button = addToQuoteBtn as HTMLButtonElement;
+    const productId = button.dataset.productId;
+    const productTitle = button.dataset.productTitle;
+    const productSku = button.dataset.productSku;
+    const quantity = parseInt(quantityInput.value) || 1;
+
+    // Get current quote from localStorage
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+
+    // Check if product already in quote
+    const existingIndex = quote.findIndex((item: any) => item.id === productId);
+
+    if (existingIndex >= 0) {
+      quote[existingIndex].quantity += quantity;
+    } else {
+      quote.push({
+        id: productId,
+        title: productTitle,
+        sku: productSku,
+        quantity: quantity
+      });
+    }
+
+    // Save to localStorage
+    localStorage.setItem('rentalQuote', JSON.stringify(quote));
+
+    // Update quote count in navbar
+    const quoteCountEl = document.getElementById('quote-count');
+    if (quoteCountEl) {
+      quoteCountEl.textContent = quote.length.toString();
+    }
+
+    // Visual feedback
+    button.classList.add('!bg-green-500');
+    button.textContent = '¡AGREGADO A COTIZACIÓN!';
+
+    setTimeout(() => {
+      button.classList.remove('!bg-green-500');
+      button.textContent = 'AGREGAR A COTIZACIÓN';
+    }, 2000);
+  });
+
+  // Thumbnail gallery
+  const thumbnailBtns = document.querySelectorAll('.thumbnail-btn');
+  const mainImage = document.getElementById('main-product-image') as HTMLImageElement;
+
+  thumbnailBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const imageSrc = (btn as HTMLElement).dataset.imageSrc;
+      if (mainImage && imageSrc) {
+        mainImage.src = imageSrc;
+      }
+
+      // Update active state
+      thumbnailBtns.forEach(b => b.classList.remove('border-orange-500'));
+      btn.classList.add('border-orange-500');
+    });
+  });
+</script>

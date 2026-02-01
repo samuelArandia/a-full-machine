@@ -1,0 +1,63 @@
+---
+interface Props {
+  text?: string;
+  linkText?: string;
+  linkUrl?: string;
+  bgColor?: string;
+}
+
+const {
+  text = "ATM Rent ahora vende repuestos en línea.",
+  linkText = "¡Compra ahora!",
+  linkUrl = "/es/parts",
+  bgColor = "bg-white"
+} = Astro.props;
+---
+
+<div class={`${bgColor} border-b border-neutral-200 overflow-hidden py-2`}>
+  <div class="marquee-container">
+    <div class="marquee-content">
+      {[...Array(10)].map(() => (
+        <span class="marquee-item">
+          <span class="text-neutral-700 font-semibold text-sm">{text}</span>
+          <a href={linkUrl} class="text-[#0a1628] font-bold text-sm ml-1 hover:text-orange-500 transition-colors underline">
+            {linkText}
+          </a>
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .marquee-content {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+  }
+</style>

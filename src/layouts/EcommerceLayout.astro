@@ -1,0 +1,139 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import TopBar from "@components/ecommerce/TopBar.astro";
+import MarqueeBanner from "@components/ecommerce/MarqueeBanner.astro";
+import NavbarEcommerce from "@components/ecommerce/NavbarEcommerce.astro";
+import FooterSection from "@components/sections/FooterSection.astro";
+import "@styles/starlight.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  structuredData?: object;
+  showMarquee?: boolean;
+}
+
+const {
+  title = "ATM Rent - Arriendo de Equipos de Construcción",
+  description = "ATM Rent ofrece arriendo de maquinaria, herramientas y equipos para la construcción en Chile. Generadores, compactadores, retroexcavadoras y más.",
+  lang = "es",
+  structuredData,
+  showMarquee = true
+} = Astro.props;
+
+const defaultStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ATM Rent",
+  "url": "https://atodamakina.cl",
+  "logo": "https://atodamakina.cl/images/logo.png",
+  "description": description
+};
+---
+
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a1628" />
+
+    <title>{title}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CL" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData || defaultStructuredData)} />
+
+    <!-- View Transitions -->
+    <ViewTransitions />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+
+  <body class="bg-white dark:bg-neutral-900 antialiased">
+    <!-- Top Bar with Phone & Portal -->
+    <TopBar />
+
+    <!-- Marquee Banner -->
+    {showMarquee && <MarqueeBanner />}
+
+    <!-- Navigation -->
+    <NavbarEcommerce />
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <FooterSection />
+
+    <!-- Initialize quote count from localStorage -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+        const quoteCountEl = document.getElementById('quote-count');
+        if (quoteCountEl) {
+          quoteCountEl.textContent = quote.length.toString();
+        }
+      });
+    </script>
+
+    <!-- Theme Management -->
+    <script is:inline>
+      const HSThemeAppearance = {
+        init() {
+          const defaultTheme = "default";
+          let theme = localStorage.getItem("hs_theme") || defaultTheme;
+          if (document.querySelector("html").classList.contains("dark")) return;
+          this.setAppearance(theme);
+        },
+        _resetStylesOnLoad() {
+          const $resetStyles = document.createElement("style");
+          $resetStyles.innerText = `*{transition: unset !important;}`;
+          $resetStyles.setAttribute("data-hs-appearance-onload-styles", "");
+          document.head.appendChild($resetStyles);
+          return $resetStyles;
+        },
+        setAppearance(theme, saveInStore = true) {
+          const $resetStylesEl = this._resetStylesOnLoad();
+          if (saveInStore) {
+            localStorage.setItem("hs_theme", theme);
+          }
+          if (theme === "auto") {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default";
+          }
+          document.querySelector("html").classList.remove("dark", "default", "auto");
+          document.querySelector("html").classList.add(this.getOriginalAppearance());
+          setTimeout(() => { $resetStylesEl.remove(); });
+        },
+        getAppearance() {
+          let theme = this.getOriginalAppearance();
+          if (theme === "auto") {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default";
+          }
+          return theme;
+        },
+        getOriginalAppearance() {
+          return localStorage.getItem("hs_theme") || "default";
+        },
+      };
+      HSThemeAppearance.init();
+    </script>
+
+    <!-- Preline plugins -->
+    <script is:inline src="/scripts/vendor/preline/collapse/index.js"></script>
+    <script is:inline src="/scripts/vendor/preline/overlay/index.js"></script>
+  </body>
+</html>

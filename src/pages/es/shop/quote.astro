@@ -1,0 +1,379 @@
+---
+/**
+ * ATM Rent - Página de Cotización
+ * Permite al usuario ver y gestionar los equipos agregados a su cotización
+ */
+import EcommerceLayout from "@/layouts/EcommerceLayout.astro";
+---
+
+<EcommerceLayout
+  title="Mi Cotización - ATM Rent"
+  description="Revisa y envía tu solicitud de cotización de equipos de construcción."
+  showMarquee={false}
+>
+  <section class="py-12 md:py-16 bg-neutral-50 dark:bg-neutral-800 min-h-screen">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-[#0a1628] dark:text-white">
+          Mi Cotización
+        </h1>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-400">
+          Revisa los equipos seleccionados y envía tu solicitud de cotización
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Quote Items (Left) -->
+        <div class="lg:col-span-2">
+          <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-sm overflow-hidden">
+            <!-- Table Header -->
+            <div class="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-neutral-100 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
+              <div class="col-span-6 text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                Producto
+              </div>
+              <div class="col-span-3 text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider text-center">
+                Cantidad
+              </div>
+              <div class="col-span-3 text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider text-right">
+                Acciones
+              </div>
+            </div>
+
+            <!-- Quote Items Container -->
+            <div id="quote-items" class="divide-y divide-neutral-200 dark:divide-neutral-700">
+              <!-- Items will be populated by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-quote" class="hidden py-16 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-neutral-300 dark:text-neutral-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <h3 class="text-xl font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                Tu cotización está vacía
+              </h3>
+              <p class="text-neutral-500 dark:text-neutral-400 mb-6">
+                Agrega equipos a tu cotización desde nuestro catálogo
+              </p>
+              <a
+                href="/es/shop/collections"
+                class="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-3 font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+              >
+                Ver Catálogo
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Continue Shopping -->
+          <div class="mt-6">
+            <a
+              href="/es/shop/collections"
+              class="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 font-semibold transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+              </svg>
+              Continuar agregando equipos
+            </a>
+          </div>
+        </div>
+
+        <!-- Quote Summary (Right) -->
+        <div class="lg:col-span-1">
+          <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-sm p-6 sticky top-32">
+            <h2 class="text-xl font-bold text-[#0a1628] dark:text-white mb-6">
+              Resumen de Cotización
+            </h2>
+
+            <!-- Summary Details -->
+            <div class="space-y-4 mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+              <div class="flex justify-between">
+                <span class="text-neutral-600 dark:text-neutral-400">Total de equipos</span>
+                <span id="total-items" class="font-semibold text-[#0a1628] dark:text-white">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600 dark:text-neutral-400">Total de unidades</span>
+                <span id="total-units" class="font-semibold text-[#0a1628] dark:text-white">0</span>
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form id="quote-form" class="space-y-4">
+              <div>
+                <label for="name" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Nombre completo *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="Tu nombre"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Correo electrónico *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="tu@email.com"
+                />
+              </div>
+
+              <div>
+                <label for="phone" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Teléfono *
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="+56 9 1234 5678"
+                />
+              </div>
+
+              <div>
+                <label for="company" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Empresa (opcional)
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="Nombre de tu empresa"
+                />
+              </div>
+
+              <div>
+                <label for="message" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Comentarios adicionales
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="3"
+                  class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                  placeholder="Fechas de arriendo, lugar de entrega, etc."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                id="submit-quote"
+                disabled
+                class="w-full bg-[#0a1628] text-white py-4 font-bold tracking-wider rounded-lg hover:bg-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                ENVIAR COTIZACIÓN
+              </button>
+            </form>
+
+            <!-- WhatsApp Alternative -->
+            <div class="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700 text-center">
+              <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+                O contáctanos directamente
+              </p>
+              <a
+                href="https://api.whatsapp.com/send?phone=56961910135"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 w-full bg-green-500 text-white py-3 font-semibold rounded-lg hover:bg-green-600 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</EcommerceLayout>
+
+<script>
+  // Quote management
+  function renderQuoteItems() {
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+    const quoteItemsContainer = document.getElementById('quote-items');
+    const emptyQuote = document.getElementById('empty-quote');
+    const totalItemsEl = document.getElementById('total-items');
+    const totalUnitsEl = document.getElementById('total-units');
+    const submitBtn = document.getElementById('submit-quote') as HTMLButtonElement;
+
+    if (!quoteItemsContainer || !emptyQuote) return;
+
+    if (quote.length === 0) {
+      quoteItemsContainer.innerHTML = '';
+      emptyQuote.classList.remove('hidden');
+      if (submitBtn) submitBtn.disabled = true;
+      if (totalItemsEl) totalItemsEl.textContent = '0';
+      if (totalUnitsEl) totalUnitsEl.textContent = '0';
+      return;
+    }
+
+    emptyQuote.classList.add('hidden');
+    if (submitBtn) submitBtn.disabled = false;
+
+    // Calculate totals
+    const totalItems = quote.length;
+    const totalUnits = quote.reduce((sum: number, item: any) => sum + item.quantity, 0);
+
+    if (totalItemsEl) totalItemsEl.textContent = totalItems.toString();
+    if (totalUnitsEl) totalUnitsEl.textContent = totalUnits.toString();
+
+    // Render items
+    quoteItemsContainer.innerHTML = quote.map((item: any, index: number) => `
+      <div class="grid md:grid-cols-12 gap-4 px-6 py-4 items-center" data-index="${index}">
+        <!-- Product Info -->
+        <div class="md:col-span-6">
+          <h3 class="font-semibold text-[#0a1628] dark:text-white">${item.title}</h3>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">${item.sku}</p>
+        </div>
+
+        <!-- Quantity -->
+        <div class="md:col-span-3 flex items-center justify-center">
+          <div class="flex items-center border border-neutral-300 dark:border-neutral-600 rounded-lg overflow-hidden">
+            <button
+              type="button"
+              class="qty-decrease px-3 py-2 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              data-index="${index}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+              </svg>
+            </button>
+            <span class="px-4 py-2 text-[#0a1628] dark:text-white font-semibold">${item.quantity}</span>
+            <button
+              type="button"
+              class="qty-increase px-3 py-2 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              data-index="${index}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remove -->
+        <div class="md:col-span-3 text-right">
+          <button
+            type="button"
+            class="remove-item text-red-500 hover:text-red-600 transition-colors"
+            data-index="${index}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    // Attach event listeners
+    attachQuoteEventListeners();
+  }
+
+  function attachQuoteEventListeners() {
+    // Decrease quantity
+    document.querySelectorAll('.qty-decrease').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt((e.currentTarget as HTMLElement).dataset.index || '0');
+        updateQuantity(index, -1);
+      });
+    });
+
+    // Increase quantity
+    document.querySelectorAll('.qty-increase').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt((e.currentTarget as HTMLElement).dataset.index || '0');
+        updateQuantity(index, 1);
+      });
+    });
+
+    // Remove item
+    document.querySelectorAll('.remove-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt((e.currentTarget as HTMLElement).dataset.index || '0');
+        removeItem(index);
+      });
+    });
+  }
+
+  function updateQuantity(index: number, change: number) {
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+    if (quote[index]) {
+      quote[index].quantity = Math.max(1, quote[index].quantity + change);
+      localStorage.setItem('rentalQuote', JSON.stringify(quote));
+      renderQuoteItems();
+      updateNavbarCount();
+    }
+  }
+
+  function removeItem(index: number) {
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+    quote.splice(index, 1);
+    localStorage.setItem('rentalQuote', JSON.stringify(quote));
+    renderQuoteItems();
+    updateNavbarCount();
+  }
+
+  function updateNavbarCount() {
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+    const quoteCountEl = document.getElementById('quote-count');
+    if (quoteCountEl) {
+      quoteCountEl.textContent = quote.length.toString();
+    }
+  }
+
+  // Form submission
+  const quoteForm = document.getElementById('quote-form');
+  quoteForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+    if (quote.length === 0) return;
+
+    const formData = new FormData(quoteForm as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      company: formData.get('company'),
+      message: formData.get('message'),
+      items: quote
+    };
+
+    // Here you would send this data to your backend
+    console.log('Quote submission:', data);
+
+    // Show success message (placeholder)
+    alert('¡Cotización enviada! Nos pondremos en contacto contigo pronto.');
+
+    // Clear quote
+    localStorage.removeItem('rentalQuote');
+    renderQuoteItems();
+    updateNavbarCount();
+    (quoteForm as HTMLFormElement).reset();
+  });
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderQuoteItems();
+  });
+</script>

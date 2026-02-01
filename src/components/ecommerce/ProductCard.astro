@@ -1,0 +1,143 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  id: string;
+  title: string;
+  sku: string;
+  description?: string;
+  image: any;
+  imageAlt: string;
+  price?: number;
+  priceLabel?: string;
+  url: string;
+  isRental?: boolean;
+}
+
+const {
+  id,
+  title,
+  sku,
+  description,
+  image,
+  imageAlt,
+  price,
+  priceLabel = "Consultar precio",
+  url,
+  isRental = true
+} = Astro.props;
+---
+
+<article class="group bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-neutral-200 dark:border-neutral-700">
+  <!-- Image Container -->
+  <a href={url} class="block relative aspect-square overflow-hidden bg-neutral-100 dark:bg-neutral-700">
+    <Image
+      src={image}
+      alt={imageAlt}
+      class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+      loading="lazy"
+    />
+    {isRental && (
+      <span class="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded">
+        ARRIENDO
+      </span>
+    )}
+  </a>
+
+  <!-- Content -->
+  <div class="p-4">
+    <!-- Title & SKU -->
+    <a href={url} class="block">
+      <h3 class="text-lg font-bold text-[#0a1628] dark:text-white group-hover:text-orange-500 transition-colors line-clamp-2">
+        {title}
+      </h3>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+        {sku}
+      </p>
+    </a>
+
+    <!-- Description -->
+    {description && (
+      <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-2 line-clamp-2">
+        {description}
+      </p>
+    )}
+
+    <!-- Price & Action -->
+    <div class="mt-4 flex items-center justify-between">
+      <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+        {price ? `$${price.toLocaleString('es-CL')}/día` : priceLabel}
+      </span>
+
+      <button
+        type="button"
+        class="add-to-quote-btn inline-flex items-center gap-2 bg-[#0a1628] text-white px-4 py-2 text-sm font-semibold rounded hover:bg-orange-500 transition-colors"
+        data-product-id={id}
+        data-product-title={title}
+        data-product-sku={sku}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        COTIZAR
+      </button>
+    </div>
+  </div>
+</article>
+
+<script>
+  // Add to quote functionality
+  document.querySelectorAll('.add-to-quote-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const button = e.currentTarget as HTMLButtonElement;
+      const productId = button.dataset.productId;
+      const productTitle = button.dataset.productTitle;
+      const productSku = button.dataset.productSku;
+
+      // Get current quote from localStorage
+      const quote = JSON.parse(localStorage.getItem('rentalQuote') || '[]');
+
+      // Check if product already in quote
+      const existingIndex = quote.findIndex((item: any) => item.id === productId);
+
+      if (existingIndex >= 0) {
+        quote[existingIndex].quantity += 1;
+      } else {
+        quote.push({
+          id: productId,
+          title: productTitle,
+          sku: productSku,
+          quantity: 1
+        });
+      }
+
+      // Save to localStorage
+      localStorage.setItem('rentalQuote', JSON.stringify(quote));
+
+      // Update quote count in navbar
+      const quoteCountEl = document.getElementById('quote-count');
+      if (quoteCountEl) {
+        quoteCountEl.textContent = quote.length.toString();
+      }
+
+      // Visual feedback
+      button.classList.add('!bg-green-500');
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        AGREGADO
+      `;
+
+      setTimeout(() => {
+        button.classList.remove('!bg-green-500');
+        button.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          COTIZAR
+        `;
+      }, 1500);
+    });
+  });
+</script>

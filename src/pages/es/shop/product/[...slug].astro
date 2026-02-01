@@ -1,0 +1,256 @@
+---
+/**
+ * ATM Rent - Página de Detalle de Producto
+ * Diseño estilo Skyworks con tabla de especificaciones
+ */
+import EcommerceLayout from "@/layouts/EcommerceLayout.astro";
+import ProductDetailSkyworks from "@components/ecommerce/ProductDetailSkyworks.astro";
+import ProductCard from "@components/ecommerce/ProductCard.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+// Get all products for static paths
+export async function getStaticPaths() {
+  const productEntries = await getCollection("products");
+  return productEntries.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+
+// Get related products (excluding current)
+const allProducts: CollectionEntry<"products">[] = await getCollection("products");
+const relatedProducts = allProducts
+  .filter(p => p.slug !== product.slug)
+  .slice(0, 4);
+
+// Build specifications from product data
+const specifications = [
+  ...product.data.specificationsLeft.map(spec => ({
+    label: spec.title,
+    value: spec.subTitle
+  })),
+  ...(product.data.specificationsRight || []).map(spec => ({
+    label: spec.title,
+    value: spec.subTitle
+  }))
+];
+---
+
+<EcommerceLayout
+  title={`${product.data.title} - Arriendo | ATM Rent`}
+  description={product.data.main.content}
+>
+  <!-- Breadcrumb -->
+  <nav class="bg-neutral-100 dark:bg-neutral-800 py-4">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+      <ol class="flex items-center space-x-2 text-sm">
+        <li>
+          <a href="/es/shop" class="text-neutral-500 hover:text-orange-500 transition-colors">Inicio</a>
+        </li>
+        <li class="text-neutral-400">/</li>
+        <li>
+          <a href="/es/shop/collections" class="text-neutral-500 hover:text-orange-500 transition-colors">Equipos</a>
+        </li>
+        <li class="text-neutral-400">/</li>
+        <li class="text-[#0a1628] dark:text-white font-medium truncate max-w-[200px]">
+          {product.data.title}
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Product Detail -->
+  <ProductDetailSkyworks
+    id={product.slug}
+    title={product.data.title}
+    sku={product.data.description}
+    description={product.data.main.content}
+    image={product.data.main.imgMain}
+    imageAlt={product.data.main.imgAlt}
+    specifications={specifications}
+    isRental={true}
+  />
+
+  <!-- Product Description Tabs -->
+  <section class="py-12 bg-neutral-50 dark:bg-neutral-800">
+    <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+      <!-- Tabs Navigation -->
+      <div class="border-b border-neutral-200 dark:border-neutral-700">
+        <nav class="flex space-x-8" aria-label="Tabs">
+          <button
+            class="product-tab active py-4 px-1 border-b-2 border-orange-500 font-semibold text-sm text-orange-500"
+            data-tab="description"
+          >
+            Descripción
+          </button>
+          <button
+            class="product-tab py-4 px-1 border-b-2 border-transparent font-semibold text-sm text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
+            data-tab="features"
+          >
+            Características
+          </button>
+          <button
+            class="product-tab py-4 px-1 border-b-2 border-transparent font-semibold text-sm text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
+            data-tab="rental-info"
+          >
+            Información de Arriendo
+          </button>
+        </nav>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="py-8">
+        <!-- Description Tab -->
+        <div id="tab-description" class="tab-content">
+          <div class="prose prose-neutral dark:prose-invert max-w-none">
+            <h3 class="text-xl font-bold text-[#0a1628] dark:text-white mb-4">
+              {product.data.longDescription.title}
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              {product.data.longDescription.subTitle}
+            </p>
+            <div class="mt-6 grid md:grid-cols-3 gap-6">
+              {product.data.descriptionList.map((item) => (
+                <div class="bg-white dark:bg-neutral-700 p-6 rounded-lg shadow-sm">
+                  <h4 class="font-semibold text-[#0a1628] dark:text-white mb-2">{item.title}</h4>
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">{item.subTitle}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Tab -->
+        <div id="tab-features" class="tab-content hidden">
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-bold text-[#0a1628] dark:text-white mb-4">Especificaciones Técnicas</h3>
+              <ul class="space-y-3">
+                {product.data.specificationsLeft.map((spec) => (
+                  <li class="flex items-start gap-3">
+                    <svg class="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-neutral-600 dark:text-neutral-400">
+                      <strong class="text-[#0a1628] dark:text-white">{spec.title}:</strong> {spec.subTitle}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {product.data.specificationsRight && (
+              <div>
+                <h3 class="text-xl font-bold text-[#0a1628] dark:text-white mb-4">Características Adicionales</h3>
+                <ul class="space-y-3">
+                  {product.data.specificationsRight.map((spec) => (
+                    <li class="flex items-start gap-3">
+                      <svg class="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span class="text-neutral-600 dark:text-neutral-400">
+                        <strong class="text-[#0a1628] dark:text-white">{spec.title}:</strong> {spec.subTitle}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <!-- Rental Info Tab -->
+        <div id="tab-rental-info" class="tab-content hidden">
+          <div class="max-w-3xl">
+            <h3 class="text-xl font-bold text-[#0a1628] dark:text-white mb-4">Información de Arriendo</h3>
+            <div class="space-y-6">
+              <div class="bg-white dark:bg-neutral-700 p-6 rounded-lg shadow-sm">
+                <h4 class="font-semibold text-[#0a1628] dark:text-white mb-2">Períodos de Arriendo</h4>
+                <ul class="text-sm text-neutral-600 dark:text-neutral-400 space-y-2">
+                  <li>• Arriendo diario (mínimo 1 día)</li>
+                  <li>• Arriendo semanal (descuento del 10%)</li>
+                  <li>• Arriendo mensual (descuento del 20%)</li>
+                </ul>
+              </div>
+              <div class="bg-white dark:bg-neutral-700 p-6 rounded-lg shadow-sm">
+                <h4 class="font-semibold text-[#0a1628] dark:text-white mb-2">Incluye</h4>
+                <ul class="text-sm text-neutral-600 dark:text-neutral-400 space-y-2">
+                  <li>• Equipo en perfecto estado de funcionamiento</li>
+                  <li>• Capacitación básica de uso</li>
+                  <li>• Soporte técnico durante el arriendo</li>
+                  <li>• Seguro básico incluido</li>
+                </ul>
+              </div>
+              <div class="bg-white dark:bg-neutral-700 p-6 rounded-lg shadow-sm">
+                <h4 class="font-semibold text-[#0a1628] dark:text-white mb-2">Requisitos</h4>
+                <ul class="text-sm text-neutral-600 dark:text-neutral-400 space-y-2">
+                  <li>• Documento de identidad vigente</li>
+                  <li>• Contrato de arriendo firmado</li>
+                  <li>• Depósito de garantía (reembolsable)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  {relatedProducts.length > 0 && (
+    <section class="py-12 bg-white dark:bg-neutral-900">
+      <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+        <h2 class="text-2xl font-bold text-[#0a1628] dark:text-white mb-8">
+          Productos Relacionados
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {relatedProducts.map((related) => (
+            <ProductCard
+              id={related.slug}
+              title={related.data.title}
+              sku={related.data.description}
+              description={related.data.main.content}
+              image={related.data.main.imgCard}
+              imageAlt={related.data.main.imgAlt}
+              url={`/es/shop/product/${related.slug}`}
+              isRental={true}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</EcommerceLayout>
+
+<script>
+  // Tab functionality
+  const tabs = document.querySelectorAll('.product-tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetId = `tab-${(tab as HTMLElement).dataset.tab}`;
+
+      // Remove active state from all tabs
+      tabs.forEach(t => {
+        t.classList.remove('active', 'border-orange-500', 'text-orange-500');
+        t.classList.add('border-transparent', 'text-neutral-500');
+      });
+
+      // Add active state to clicked tab
+      tab.classList.add('active', 'border-orange-500', 'text-orange-500');
+      tab.classList.remove('border-transparent', 'text-neutral-500');
+
+      // Hide all tab contents
+      tabContents.forEach(content => {
+        content.classList.add('hidden');
+      });
+
+      // Show target tab content
+      const targetContent = document.getElementById(targetId);
+      targetContent?.classList.remove('hidden');
+    });
+  });
+</script>
