@@ -1,0 +1,109 @@
+{
+  "categories": [
+    {
+      "id": "aerial-work-platforms",
+      "name": "Plataformas Aéreas",
+      "nameEn": "Aerial Work Platforms",
+      "slug": "plataformas-aereas",
+      "description": "Elevadores de tijera, brazos articulados y telescópicos para trabajo en altura",
+      "image": "/images/categories/aerial-platforms.jpg",
+      "featured": true
+    },
+    {
+      "id": "compaction-paving",
+      "name": "Compactación y Pavimentación",
+      "nameEn": "Compaction & Paving",
+      "slug": "compactacion-pavimentacion",
+      "description": "Rodillos compactadores, placas vibratorias y equipos de pavimentación",
+      "image": "/images/categories/compaction.jpg",
+      "featured": true
+    },
+    {
+      "id": "concrete-masonry",
+      "name": "Concreto y Albañilería",
+      "nameEn": "Concrete & Masonry",
+      "slug": "concreto-albanileria",
+      "description": "Mezcladoras, vibradores de concreto y equipos de albañilería",
+      "image": "/images/categories/concrete.jpg",
+      "featured": true
+    },
+    {
+      "id": "earthmoving",
+      "name": "Movimiento de Tierra",
+      "nameEn": "Earthmoving",
+      "slug": "movimiento-tierra",
+      "description": "Retroexcavadoras, minicargadores y excavadoras",
+      "image": "/images/categories/earthmoving.jpg",
+      "featured": true
+    },
+    {
+      "id": "forklifts-telehandlers",
+      "name": "Montacargas y Telehandlers",
+      "nameEn": "Forklifts & Telehandlers",
+      "slug": "montacargas-telehandlers",
+      "description": "Equipos de elevación y manipulación de materiales",
+      "image": "/images/categories/forklifts.jpg",
+      "featured": true
+    },
+    {
+      "id": "generators-power",
+      "name": "Generadores y Energía",
+      "nameEn": "Generators & Power",
+      "slug": "generadores-energia",
+      "description": "Grupos electrógenos, torres de iluminación y equipos eléctricos",
+      "image": "/images/categories/generators.jpg",
+      "featured": true
+    },
+    {
+      "id": "air-compressors",
+      "name": "Compresores de Aire",
+      "nameEn": "Air Compressors & Air Tools",
+      "slug": "compresores-aire",
+      "description": "Compresores portátiles y herramientas neumáticas",
+      "image": "/images/categories/compressors.jpg",
+      "featured": true
+    },
+    {
+      "id": "demolition-tools",
+      "name": "Demolición y Herramientas",
+      "nameEn": "Demolition & Tools",
+      "slug": "demolicion-herramientas",
+      "description": "Martillos demoledores, cinceladores y herramientas especializadas",
+      "image": "/images/categories/demolition.jpg",
+      "featured": true
+    }
+  ],
+  "heroSlides": [
+    {
+      "id": 1,
+      "category": "Equipos de Construcción",
+      "title": "ARRIENDA EQUIPOS DE COMPACTACIÓN HOY",
+      "buttonText": "VER COMPACTACIÓN",
+      "buttonUrl": "/es/collections/compactacion-pavimentacion",
+      "image": "/images/hero/compaction-hero.jpg"
+    },
+    {
+      "id": 2,
+      "category": "Equipos de Construcción",
+      "title": "GENERADORES DE ALTA POTENCIA",
+      "buttonText": "VER GENERADORES",
+      "buttonUrl": "/es/collections/generadores-energia",
+      "image": "/images/hero/generators-hero.jpg"
+    },
+    {
+      "id": 3,
+      "category": "Equipos de Construcción",
+      "title": "MAQUINARIA PARA MOVIMIENTO DE TIERRA",
+      "buttonText": "VER MAQUINARIA",
+      "buttonUrl": "/es/collections/movimiento-tierra",
+      "image": "/images/hero/earthmoving-hero.jpg"
+    }
+  ],
+  "companyInfo": {
+    "phone": "+56 9 6191 0135",
+    "email": "contacto@atodamakina.cl",
+    "yearsInBusiness": 10,
+    "tagline": "CONFIANZA POR MÁS DE 10 AÑOS",
+    "mainTitle": "ATM RENT OFRECE ARRIENDO DE EQUIPOS DE CONSTRUCCIÓN, VENTA DE REPUESTOS Y SERVICIO TÉCNICO"
+  }
+}

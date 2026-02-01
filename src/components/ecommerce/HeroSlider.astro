@@ -1,0 +1,161 @@
+---
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+
+// Default images (replace with actual equipment images)
+import image1 from '@images/generador.jpg';
+import image2 from '@images/construction-workers.avif';
+import image3 from '@images/using-tools.avif';
+
+interface Slide {
+  id: number;
+  category: string;
+  title: string;
+  buttonText: string;
+  buttonUrl: string;
+  image?: any;
+}
+
+interface Props {
+  slides?: Slide[];
+}
+
+const defaultSlides: Slide[] = [
+  {
+    id: 1,
+    category: "EQUIPOS DE CONSTRUCCIÓN",
+    title: "ARRIENDA EQUIPOS DE COMPACTACIÓN HOY",
+    buttonText: "VER COMPACTACIÓN",
+    buttonUrl: "/es/collections/compactacion-pavimentacion",
+    image: image1
+  },
+  {
+    id: 2,
+    category: "EQUIPOS DE CONSTRUCCIÓN",
+    title: "GENERADORES DE ALTA POTENCIA DISPONIBLES",
+    buttonText: "VER GENERADORES",
+    buttonUrl: "/es/collections/generadores-energia",
+    image: image2
+  },
+  {
+    id: 3,
+    category: "EQUIPOS DE CONSTRUCCIÓN",
+    title: "MAQUINARIA PARA MOVIMIENTO DE TIERRA",
+    buttonText: "VER MAQUINARIA",
+    buttonUrl: "/es/collections/movimiento-tierra",
+    image: image3
+  }
+];
+
+const { slides = defaultSlides } = Astro.props;
+---
+
+<section class="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+  <!-- Swiper Container -->
+  <div class="swiper heroSwiper h-full">
+    <div class="swiper-wrapper">
+      {slides.map((slide) => (
+        <div class="swiper-slide relative">
+          <!-- Background Image -->
+          <div class="absolute inset-0">
+            {slide.image && (
+              <img
+                src={typeof slide.image === 'string' ? slide.image : slide.image.src}
+                alt={slide.title}
+                class="w-full h-full object-cover"
+              />
+            )}
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-[#0a1628]/60"></div>
+          </div>
+
+          <!-- Content -->
+          <div class="relative z-10 h-full flex items-center">
+            <div class="max-w-[85rem] mx-auto px-4 lg:px-8 w-full">
+              <div class="max-w-2xl">
+                <span class="text-orange-400 text-sm md:text-base font-semibold tracking-wider mb-2 block">
+                  {slide.category}
+                </span>
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                  {slide.title}
+                </h2>
+                <a
+                  href={slide.buttonUrl}
+                  class="inline-block bg-white text-[#0a1628] px-8 py-4 text-sm font-bold tracking-wider hover:bg-orange-500 hover:text-white transition-colors duration-300"
+                >
+                  {slide.buttonText}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="swiper-button-prev !text-white !w-12 !h-12 after:!text-xl hover:!text-orange-400 transition-colors"></div>
+    <div class="swiper-button-next !text-white !w-12 !h-12 after:!text-xl hover:!text-orange-400 transition-colors"></div>
+
+    <!-- Pagination -->
+    <div class="swiper-pagination !bottom-8"></div>
+  </div>
+</section>
+
+<style>
+  .heroSwiper {
+    --swiper-navigation-size: 24px;
+    --swiper-pagination-color: #fff;
+    --swiper-pagination-bullet-inactive-color: rgba(255, 255, 255, 0.5);
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 12px;
+    --swiper-pagination-bullet-horizontal-gap: 6px;
+  }
+
+  .heroSwiper .swiper-pagination-bullet {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .heroSwiper .swiper-button-prev,
+  .heroSwiper .swiper-button-next {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    padding: 24px;
+  }
+
+  .heroSwiper .swiper-button-prev:hover,
+  .heroSwiper .swiper-button-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
+
+  Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
+
+  new Swiper('.heroSwiper', {
+    loop: true,
+    effect: 'fade',
+    fadeEffect: {
+      crossFade: true
+    },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+</script>

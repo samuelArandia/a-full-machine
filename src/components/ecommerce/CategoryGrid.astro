@@ -1,0 +1,131 @@
+---
+import { Image } from "astro:assets";
+
+// Import placeholder images
+import placeholderImg from "@images/construction-image.png";
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  image?: any;
+}
+
+interface Props {
+  title?: string;
+  categories?: Category[];
+}
+
+const defaultCategories: Category[] = [
+  {
+    id: "aerial-work-platforms",
+    name: "PLATAFORMAS AÉREAS",
+    slug: "plataformas-aereas",
+    description: "Elevadores y brazos articulados",
+    image: placeholderImg
+  },
+  {
+    id: "compaction-paving",
+    name: "COMPACTACIÓN Y PAVIMENTACIÓN",
+    slug: "compactacion-pavimentacion",
+    description: "Rodillos y placas vibratorias",
+    image: placeholderImg
+  },
+  {
+    id: "concrete-masonry",
+    name: "CONCRETO Y ALBAÑILERÍA",
+    slug: "concreto-albanileria",
+    description: "Mezcladoras y vibradores",
+    image: placeholderImg
+  },
+  {
+    id: "earthmoving",
+    name: "MOVIMIENTO DE TIERRA",
+    slug: "movimiento-tierra",
+    description: "Retroexcavadoras y excavadoras",
+    image: placeholderImg
+  },
+  {
+    id: "forklifts-telehandlers",
+    name: "MONTACARGAS Y TELEHANDLERS",
+    slug: "montacargas-telehandlers",
+    description: "Equipos de elevación",
+    image: placeholderImg
+  },
+  {
+    id: "generators-power",
+    name: "GENERADORES Y ENERGÍA",
+    slug: "generadores-energia",
+    description: "Grupos electrógenos",
+    image: placeholderImg
+  },
+  {
+    id: "air-compressors",
+    name: "COMPRESORES DE AIRE",
+    slug: "compresores-aire",
+    description: "Compresores portátiles",
+    image: placeholderImg
+  },
+  {
+    id: "demolition-tools",
+    name: "DEMOLICIÓN Y HERRAMIENTAS",
+    slug: "demolicion-herramientas",
+    description: "Martillos demoledores",
+    image: placeholderImg
+  }
+];
+
+const {
+  title = "ENCUENTRA EL EQUIPO ADECUADO",
+  categories = defaultCategories
+} = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-white dark:bg-neutral-800">
+  <div class="max-w-[85rem] mx-auto px-4 lg:px-8">
+    <!-- Title -->
+    <h2 class="text-2xl md:text-4xl font-bold text-center text-[#0a1628] dark:text-white mb-12">
+      {title}
+    </h2>
+
+    <!-- Category Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      {categories.map((category) => (
+        <a
+          href={`/es/collections/${category.slug}`}
+          class="group relative aspect-square overflow-hidden rounded-lg"
+        >
+          <!-- Background Image -->
+          <div class="absolute inset-0">
+            {category.image && (
+              <Image
+                src={category.image}
+                alt={category.name}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+            )}
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/40 to-transparent"></div>
+          </div>
+
+          <!-- Content -->
+          <div class="absolute inset-0 flex flex-col justify-end p-6">
+            <h3 class="text-white font-bold text-lg leading-tight group-hover:text-orange-400 transition-colors">
+              {category.name}
+            </h3>
+            <div class="mt-2 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:w-16"></div>
+          </div>
+
+          <!-- Hover Arrow -->
+          <div class="absolute top-4 right-4 opacity-0 transform translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
